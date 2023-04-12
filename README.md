@@ -1,5 +1,5 @@
 === WP Wand - AI Content Generator ===
-Contributors: Your Name
+Contributors: WP Grids
 Tags: ai, content generation
 Requires at least: 5.0
 Tested up to: 6.2

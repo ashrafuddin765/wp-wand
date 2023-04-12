@@ -1,0 +1,32 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*.swn
+.idea/
+.vscode/
+
+# Dependency directories
+/node_modules/
+/vendor/
+
+# Build files
+/build/
+/dist/
+*.log
+
+# Configuration files
+.env
+
+# Other files
+*.zip
+*.gz
+*.tar
+*.rar
+*.sql
+*.pdf
+*.docx
+*.xlsx
