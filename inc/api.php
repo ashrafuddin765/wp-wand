@@ -46,7 +46,6 @@ function wpwand_request() {
     );
 
     // Call OpenAI API to generate content
-    // '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'
     $openAI = new OpenAi( WPWAND_OPENAI_KEY );
 
     if ( 'gpt-3.5-turbo' == $selected_model ) {
