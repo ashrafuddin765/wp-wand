@@ -17,7 +17,7 @@ function wpwand_request() {
     $selected_model    = '';
     $busines_details   = '';
     $targated_customer = '';
-
+    $language         = wp_kses_post( $_POST['language'] ?? '' );
     // Sanitize and validate input fields
     $fields = array(
         'topic'            => sanitize_text_field( $_POST['topic'] ?? '' ),
@@ -33,6 +33,7 @@ function wpwand_request() {
         'product_2'        => wp_kses_post( $_POST['product_2'] ?? '' ),
         'description_1'    => wp_kses_post( $_POST['description_1'] ?? '' ),
         'description_2'    => wp_kses_post( $_POST['description_2'] ?? '' ),
+        
     );
 
     // Replace fields in prompt with values
@@ -66,6 +67,10 @@ function wpwand_request() {
                     'content' => "Your targated customer is: $targated_customer ",
                 ],
                 [
+                    'role'    => 'system',
+                    'content' => "Your language is: $language. you must write in the following language ",
+                ],
+                [
                     'role'    => 'user',
                     'content' => $command,
                 ],
@@ -79,7 +84,7 @@ function wpwand_request() {
     } else {
         $complete = $openAI->completion( [
             'model'             => $selected_model,
-            'prompt'            => WPWAND_AI_CHARACTER . " Your business details is: $busines_details . Your Targated customer is: $targated_customer. $command",
+            'prompt'            => WPWAND_AI_CHARACTER . "Your language is: $language. you must write in the following language . Your business details is: $busines_details . Your Targated customer is: $targated_customer. $command",
             'n'                 => (int) $fields['no_of_results'],
             'temperature'       => (int) get_option( 'wpwand_temperature', 1.0 ),
             'max_tokens'        => (int) get_option( 'wpwand_max_tokens', 1000 ),

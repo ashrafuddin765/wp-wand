@@ -50,7 +50,7 @@ function wpwand_settings_page() {
             <form method="post" action="options.php">
                 <?php settings_fields( 'wpwand_settings_group' );?>
                 <?php do_settings_sections( 'wpwand_settings_group' );?>
-            <div id="general" class="tab-panel">
+                <div id="general" class="tab-panel">
                     <table class="form-table">
                         <tr valign="top">
                             <th scope="row">
@@ -100,6 +100,25 @@ function wpwand_settings_page() {
                                     <option value="text-ada-001"
                                         <?php selected( wpwand_get_option( 'wpwand_model', 'gpt-3.5-turbo' ), 'text-ada-001' );?>>
                                         <?php esc_html_e( 'text-ada-001', 'wpwand' );?></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="wpwand_language"><?php esc_html_e( 'Language', 'wpwand' );?>
+                                    <span class="wpwand-field-desc">Select your language</span>
+                                </label>
+                            </th>
+                            <td>
+                                <select id="wpwand_language" name="wpwand_language">
+                                             <?php
+                                            if(is_array(wpwand_language_array())){
+                                                $default_language = wpwand_get_option('wpwand_language', 'en');
+                                                foreach(wpwand_language_array() as $key => $value){
+                                                    echo '<option value="' . $key . '" '.selected( $default_language, $key ).' >'.$key.'</option>';
+                                                }
+                                            }
+                                        ?>
                                 </select>
                             </td>
                         </tr>
@@ -166,7 +185,7 @@ function wpwand_settings_page() {
 
                     </table>
                     <?php wpwand_model_details_card()?>
-                    
+
                 </div>
                 <?php do_action( 'wpwand_add_tab_content' )?>
                 <?php submit_button( esc_html__( 'Update', 'wpwand' ) );?>
@@ -201,6 +220,13 @@ function wpwand_register_settings() {
     register_setting( 'wpwand_settings_group', 'wpwand_model', array(
         'type'              => 'string',
         'description'       => esc_html__( 'Model', 'wpwand' ),
+        'sanitize_callback' => 'sanitize_text_field',
+        'validate_callback' => 'wpwand_validate_model',
+    ) );
+
+    register_setting( 'wpwand_settings_group', 'wpwand_language', array(
+        'type'              => 'string',
+        'description'       => esc_html__( 'Language', 'wpwand' ),
         'sanitize_callback' => 'sanitize_text_field',
         'validate_callback' => 'wpwand_validate_model',
     ) );

@@ -3,7 +3,7 @@
 function wpwand_admin_scripts() {
 
     wp_enqueue_style( 'wpwand-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap' );
-    wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css' );
+    wp_enqueue_style( 'jquery-ui', WPWAND_PLUGIN_URL . 'assets/css/jquery-ui.css' );
     wp_enqueue_style( 'wpwand-admin', WPWAND_PLUGIN_URL . 'assets/css/admin.css' );
 
     wp_enqueue_script( 'jquery-ui-slider' );
