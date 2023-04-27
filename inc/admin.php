@@ -68,7 +68,7 @@ function wpwand_settings_page() {
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
                                             d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM11.7071 6.70711C12.0976 6.31658 12.0976 5.68342 11.7071 5.29289C11.3166 4.90237 10.6834 4.90237 10.2929 5.29289L7 8.58579L5.70711 7.29289C5.31658 6.90237 4.68342 6.90237 4.29289 7.29289C3.90237 7.68342 3.90237 8.31658 4.29289 8.70711L6.29289 10.7071C6.68342 11.0976 7.31658 11.0976 7.70711 10.7071L11.7071 6.70711Z"
-                                            fill="<?php echo WPWAND_OPENAI_KEY ? '#3BCB38' : '#D1D6DB' ?>" />
+                                            fill="<?php echo esc_attr( WPWAND_OPENAI_KEY ) ? '#3BCB38' : '#D1D6DB' ?>" />
                                     </svg>
 
                                     <span><?php printf( $activate_text )?></span>
@@ -115,7 +115,7 @@ function wpwand_settings_page() {
                                             if(is_array(wpwand_language_array())){
                                                 $default_language = wpwand_get_option('wpwand_language', 'en');
                                                 foreach(wpwand_language_array() as $key => $value){
-                                                    echo '<option value="' . $key . '" '.selected( $default_language, $key ).' >'.$key.'</option>';
+                                                    printf( '<option value="%s" %s >%s</option>', $key, selected( $default_language, $key ), $key );
                                                 }
                                             }
                                         ?>
@@ -134,7 +134,7 @@ function wpwand_settings_page() {
                                 <div class="wpwand-slider-input-wrap">
                                     <input type="number" id="wpwand_temperature" name="wpwand_temperature"
                                         class="wpwand_slider_input small-text" min="0" max="1" step="0.1"
-                                        value="<?php echo wpwand_get_option( 'wpwand_temperature', 0.5 ); ?>" />
+                                        value="<?php echo esc_attr(wpwand_get_option( 'wpwand_temperature', 0.5 )); ?>" />
                                 </div>
                             </td>
                         </tr>
@@ -149,7 +149,7 @@ function wpwand_settings_page() {
                                 <div class="wpwand-slider-input-wrap">
                                     <input type="number" id="wpwand_max_tokens" name="wpwand_max_tokens" min="0"
                                         max="10000" step="1" class="wpwand_slider_input small-text"
-                                        value="<?php echo wpwand_get_option( 'wpwand_max_tokens', 1000 ); ?>" />
+                                        value="<?php echo esc_attr(wpwand_get_option( 'wpwand_max_tokens', 1000 )); ?>" />
                                 </div>
                             </td>
                         </tr>
@@ -163,7 +163,7 @@ function wpwand_settings_page() {
                                 <div class="wpwand-slider-input-wrap">
                                     <input type="number" id="wpwand_presence_penalty" name="wpwand_presence_penalty"
                                         min="0" max="2" step="0.1" class="wpwand_slider_input small-text"
-                                        value="<?php echo wpwand_get_option( 'wpwand_presence_penalty', 0 ); ?>" />
+                                        value="<?php echo esc_attr(wpwand_get_option( 'wpwand_presence_penalty', 0 )); ?>" />
                                 </div>
                             </td>
                         </tr>
@@ -177,7 +177,7 @@ function wpwand_settings_page() {
                                 <div class="wpwand-slider-input-wrap">
                                     <input type="number" id="wpwand_frequency" name="wpwand_frequency" min="0" max="2"
                                         step="0.1" class="wpwand_slider_input small-text"
-                                        value="<?php echo wpwand_get_option( 'wpwand_frequency', 0 ); ?>" />
+                                        value="<?php echo esc_attr(wpwand_get_option( 'wpwand_frequency', 0 )); ?>" />
                                 </div>
                             </td>
                         </tr>

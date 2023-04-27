@@ -298,7 +298,7 @@ function wpwand_frontend_callback() {
                                                  if(is_array(wpwand_language_array())){
                                                     $default_language = wpwand_get_option('wpwand_language', 'en');
                                                     foreach(wpwand_language_array() as $key => $value){
-                                                        echo '<option value="' . $key . '" '.selected( $default_language, $key ).' >'.$key.'</option>';
+                                                        printf( '<option value="%s" %s >%s</option>', $key, selected( $default_language, $key ), $key );
                                                     }
                                                 }
                                         ?>
@@ -396,7 +396,7 @@ function wpwand_frontend_callback() {
 
             // Use $.post instead of $.ajax for simpler codew
             $.post({
-                url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                url: '<?php echo  esc_url( admin_url( 'admin-ajax.php' )); ?>',
                 data: {
                     action: 'wpwand_request',
                     prompt,
@@ -453,7 +453,7 @@ function wpwand_frontend_callback() {
 
             // Use $.post instead of $.ajax for simpler code
             $.post({
-                url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                url: '<?php echo esc_url(admin_url( 'admin-ajax.php' )); ?>',
                 data: {
                     action: 'wpwand_api_set',
                     api_key
@@ -485,7 +485,7 @@ function wpwand_frontend_callback() {
         });
     });
 </script>
-<?php echo ob_get_clean();
+<?php printf( ob_get_clean());
 
 }
 
