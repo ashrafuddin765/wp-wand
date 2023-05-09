@@ -2,9 +2,18 @@
 
 function wpwand_settings_page() {
     $activate_text = WPWAND_OPENAI_KEY ? 'Active' : 'Not active <a href="https://platform.openai.com/account/api-keys">Get your free OpenAI API key</a>';
-
     ?>
 <div class="wrap">
+
+    <?php
+    
+    if(isset($_GET['welcome_screen'])){
+
+        wpwand_welcome_screen(); 
+        return true ;
+    }
+    ?>
+    
     <div class="wpwand-setting-page-wrap">
 
         <div class="wpwand-logo-full"><svg width="114" height="26" viewBox="0 0 114 26" fill="none"
@@ -46,7 +55,7 @@ function wpwand_settings_page() {
                 <a href="#general" class="nav-tab nav-tab-active"><?php esc_html_e( 'General', 'wpwand' );?></a>
                 <?php do_action( 'wpwand_add_tab_link' )?>
             </h2>
-            <a href="" class="wpwand-get-pro-button">Get Pro Version</a>
+            <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-get-pro-button">Get Pro Version</a>
             <form method="post" action="options.php">
                 <?php settings_fields( 'wpwand_settings_group' );?>
                 <?php do_settings_sections( 'wpwand_settings_group' );?>
@@ -105,7 +114,7 @@ function wpwand_settings_page() {
                         </tr>
                         <tr>
                             <th scope="row">
-                                <label for="wpwand_language"><?php esc_html_e( 'Language', 'wpwand' );?>
+                                <label for="wpwand_language"><?php esc_html_e( 'Default Content Language', 'wpwand' );?>
                                     <span class="wpwand-field-desc">Select your language</span>
                                 </label>
                             </th>
@@ -134,7 +143,7 @@ function wpwand_settings_page() {
                                 <div class="wpwand-slider-input-wrap">
                                     <input type="number" id="wpwand_temperature" name="wpwand_temperature"
                                         class="wpwand_slider_input small-text" min="0" max="1" step="0.1"
-                                        value="<?php echo esc_attr(wpwand_get_option( 'wpwand_temperature', 0.5 )); ?>" />
+                                        value="<?php echo esc_attr(wpwand_get_option( 'wpwand_temperature', 1 )); ?>" />
                                 </div>
                             </td>
                         </tr>
@@ -148,7 +157,7 @@ function wpwand_settings_page() {
                             <td>
                                 <div class="wpwand-slider-input-wrap">
                                     <input type="number" id="wpwand_max_tokens" name="wpwand_max_tokens" min="0"
-                                        max="10000" step="1" class="wpwand_slider_input small-text"
+                                        max="3800" step="1" class="wpwand_slider_input small-text"
                                         value="<?php echo esc_attr(wpwand_get_option( 'wpwand_max_tokens', 1000 )); ?>" />
                                 </div>
                             </td>
@@ -202,7 +211,7 @@ function wpwand_settings_page() {
 }
 
 function wpwand_register_menu() {
-    add_menu_page( 'WP Wand', 'WP Wand', 'manage_options', 'wpwand', '' );
+    add_menu_page( 'WP Wand', 'WP Wand', 'manage_options', 'wpwand', '', WPWAND_PLUGIN_URL . 'assets/img/logo.png' );
     add_submenu_page( 'wpwand', 'WP Wand', 'Settings', 'manage_options', 'wpwand', 'wpwand_settings_page' );
 }
 

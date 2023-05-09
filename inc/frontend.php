@@ -161,9 +161,53 @@ function wpwand_frontend_callback() {
                             <?php if ( in_array( 'Name', $fields ) ): ?>
                             <div class="wpwand-form-group">
                                 <div class="wpwand-form-field">
-                                    <label for="wpwand-product-name">Product Name</label>
+                                    <label for="wpwand-product-name">Name</label>
                                     <input type="text" id="wpwand-product-name" name="wpwand-product-name"
                                         placeholder="Write your product name">
+                                </div>
+                            </div>
+                            <?php endif;?>
+                    
+                            <!-- Product Name -->
+                            <?php if ( in_array( 'Comment', $fields ) ): ?>
+                            <div class="wpwand-form-group">
+                                <div class="wpwand-form-field">
+                                    <label for="wpwand-comment">Comment</label>
+                                    <input type="text" id="wpwand-comment" name="wpwand-comment"
+                                        placeholder="Write your comment">
+                                </div>
+                            </div>
+                            <?php endif;?>
+                    
+                            <!-- Question -->
+                            <?php if ( in_array( 'Question', $fields ) ): ?>
+                            <div class="wpwand-form-group">
+                                <div class="wpwand-form-field">
+                                    <label for="wpwand-question">Question</label>
+                                    <input type="text" id="wpwand-question" name="wpwand-question"
+                                        placeholder="Write your Question">
+                                </div>
+                            </div>
+                            <?php endif;?>
+                    
+                            <!-- Subject -->
+                            <?php if ( in_array( 'Subject', $fields ) ): ?>
+                            <div class="wpwand-form-group">
+                                <div class="wpwand-form-field">
+                                    <label for="wpwand-subject">Subject</label>
+                                    <input type="text" id="wpwand-subject" name="wpwand-subject"
+                                        placeholder="Write your Subject">
+                                </div>
+                            </div>
+                            <?php endif;?>
+                    
+                            <!-- Product Name -->
+                            <?php if ( in_array( 'Comment', $fields ) ): ?>
+                            <div class="wpwand-form-group">
+                                <div class="wpwand-form-field">
+                                    <label for="wpwand-comment">Comment</label>
+                                    <input type="text" id="wpwand-comment" name="wpwand-comment"
+                                        placeholder="Write your comment">
                                 </div>
                             </div>
                             <?php endif;?>
@@ -258,7 +302,7 @@ function wpwand_frontend_callback() {
                                 <?php //if ( true == $template['fields']['result_number'] ): ?>
                                 <div class="wpwand-form-field">
                                     <label for="wpwand-result-number">Number of Results</label>
-                                    <input type="number" id="wpwand-result-number" name="wpwand-result-number"
+                                    <input type="number" id="wpwand-result-number" max="10" name="wpwand-result-number"
                                         value="1">
                                 </div>
                                 <?php //endif;?>
@@ -309,7 +353,7 @@ function wpwand_frontend_callback() {
 
                             <div class="wpwand-form-submit">
                                 <?php if ( $template['is_pro'] ): ?>
-                                <a href="" class="wpwand-submit-pro"><svg width="14" height="16" viewBox="0 0 14 16"
+                                <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-submit-pro"><svg width="14" height="16" viewBox="0 0 14 16"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M7 10.25V11.75M2.5 14.75H11.5C12.3284 14.75 13 14.0784 13 13.25V8.75C13 7.92157 12.3284 7.25 11.5 7.25H2.5C1.67157 7.25 1 7.92157 1 8.75V13.25C1 14.0784 1.67157 14.75 2.5 14.75ZM10 7.25V4.25C10 2.59315 8.65685 1.25 7 1.25C5.34315 1.25 4 2.59315 4 4.25V7.25H10Z"
@@ -388,6 +432,9 @@ function wpwand_frontend_callback() {
             const description_1 = $this.find('#wpwand-description-1').val();
             const description_2 = $this.find('#wpwand-description-2').val();
             const language = $this.find('#wpwand-Language').val();
+            const subject = $this.find('#wpwand-subject').val();
+            const comment = $this.find('#wpwand-comment').val();
+            const question = $this.find('#wpwand-question').val();
 
             $this.find('.wpwand-result-box').show();
             $this.find('.wpwand-content-wrap').html(
@@ -412,7 +459,10 @@ function wpwand_frontend_callback() {
                     product_2,
                     description_1,
                     description_2,
-                    language
+                    language,
+                    subject,
+                    comment,
+                    question,
                 },
                 success: function (response) {
                     console.log(response);
@@ -443,40 +493,6 @@ function wpwand_frontend_callback() {
 
 
 
-        $('.wpwand-api-missing-form').on('submit', function (e) {
-            e.preventDefault();
-
-            const $this = $(this);
-            const api_key = $this.find('#wpwand-api-key').val();
-
-            $this.find('.wpwand-submit-button').html('Submitting...').css('background-color', 'gray')
-
-            // Use $.post instead of $.ajax for simpler code
-            $.post({
-                url: '<?php echo esc_url(admin_url( 'admin-ajax.php' )); ?>',
-                data: {
-                    action: 'wpwand_api_set',
-                    api_key
-
-                },
-                success: function (response) {
-
-                    if (response == 'success') {
-
-                        $this.find('.wpwand-submit-button').html('Success!!').css(
-                            'background-color', '#77C155')
-                        // reload current page
-                        window.location.reload();
-                    } else {
-                        $this.find('.wpwand-submit-button').html('Connect again').css(
-                            'background-color', '#77C155')
-                        $this.find('.wpwand-form-submit').append(
-                            '<span style="color:red">' + response.data + '</span>');
-                    }
-
-                }
-            });
-        });
 
         // Use arrow function instead of function declaration for simpler code
         $('.wpwand-trigger').on('click', () => {

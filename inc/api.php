@@ -14,10 +14,10 @@ function wpwand_request() {
         wp_send_json_error( 'error' );
     }
 
-    $selected_model    = '';
+    $selected_model    = get_option( 'wpwand_model', 'gpt-3.5-turbo' );
     $busines_details   = '';
     $targated_customer = '';
-    $language         = wp_kses_post( $_POST['language'] ?? '' );
+    $language          = wp_kses_post( $_POST['language'] ?? '' );
     // Sanitize and validate input fields
     $fields = array(
         'topic'            => sanitize_text_field( $_POST['topic'] ?? '' ),
@@ -33,7 +33,9 @@ function wpwand_request() {
         'product_2'        => wp_kses_post( $_POST['product_2'] ?? '' ),
         'description_1'    => wp_kses_post( $_POST['description_1'] ?? '' ),
         'description_2'    => wp_kses_post( $_POST['description_2'] ?? '' ),
-        
+        'subject'          => sanitize_text_field( $_POST['subject'] ?? '' ),
+        'question'         => sanitize_text_field( $_POST['question'] ?? '' ),
+        'comment'          => sanitize_text_field( $_POST['comment'] ?? '' )
     );
 
     // Replace fields in prompt with values
@@ -132,12 +134,17 @@ function wpwand_api_set() {
         wp_send_json_error( 'Please enter your api key' );
     }
 
+    if (!preg_match('/^sk-/',  $_POST['api_key'])) {
+        wp_send_json_error( 'Invalid api key.' );
+    } 
+    
+
     // Sanitize and validate input fields
     $api_key = sanitize_text_field( $_POST['api_key'] ?? '' );
 
     $set_api_key = update_option( 'wpwand_api_key', $api_key );
 
-    if ( $set_api_key ) {
+    if ( $set_api_key || get_option( 'wpwand_api_key') == $_POST['api_key'] ) {
         wp_send_json( 'success' );
     }
 

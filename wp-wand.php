@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Generate Unlimited Quality Content using OpenAI GPT-3 and GPT-4 | AI Content Generator | WP Wand
- * Plugin URI: https://wpgrids.net/
- * Description: An AI content generator plugin.
- * Version: 1.0.0
- * Author: WP Grids
- * Author URI: https://profiles.wordpress.org/wpgrids/
+ * Plugin Name: WP Wand
+ * Plugin URI: https://wpwand.com/
+ * Description: WP Wand is the generative AI platform for business that helps your team create content tailored for your brand 10X faster
+ * Version: 1.0.2
+ * Author: WP Wand
+ * Author URI: https://wpwand.com/
  * Text Domain: wpwand
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -17,9 +17,12 @@ define( 'WPWAND_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 if ( !defined( 'WPWAND_OPENAI_KEY' ) ) {
     define( 'WPWAND_OPENAI_KEY', get_option( 'wpwand_api_key', false ) );
 }
-define( 'WPWAND_AI_CHARACTER', get_option( 'wpwand_ai_character', esc_html( 'Ignore all previous instructions. You are an expert in SEO copywriting and specialising in WordPress related content creation.' ) ) );
+define( 'WPWAND_AI_CHARACTER', get_option( 'wpwand_ai_character', esc_html( 'Ignore all previous instructions. You are an expert copywriter. Provide high quality content based on my prompts.' ) ) );
 
 function wpwand_init() {
+    if(!is_admin(  )){
+        return false;
+    }
     // Vendor Autoload
     if ( !class_exists( 'Orhanerday\OpenAi\OpenAi' ) ) {
         require __DIR__ . '/vendor/orhanerday/open-ai/src/Url.php';
@@ -31,6 +34,7 @@ function wpwand_init() {
     require_once WPWAND_PLUGIN_DIR . 'inc/helper-functions.php';
     require_once WPWAND_PLUGIN_DIR . 'inc/frontend.php';
     require_once WPWAND_PLUGIN_DIR . 'inc/api.php';
+    require_once WPWAND_PLUGIN_DIR . 'inc/gutenberg.php';
 }
 
 add_action( 'init', 'wpwand_init', 10 );
@@ -42,3 +46,31 @@ function wpwand_load_plugin_textdomain() {
     load_plugin_textdomain( 'wpwand', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 add_action( 'plugins_loaded', 'wpwand_load_plugin_textdomain' );
+
+
+
+
+// Hook into the 'admin_init' action
+add_action( 'admin_init', 'wpwand_activation_redirect' );
+
+// Activation redirect function
+function wpwand_activation_redirect() {
+    // Check if the plugin is being activated for the first time
+    if ( get_option( 'wpwand_activation_redirect', false ) ) {
+        // Redirect to a specific page or URL after activation
+        delete_option( 'wpwand_activation_redirect' );
+        wp_safe_redirect( admin_url( 'admin.php?page=wpwand&welcome_screen' ) );
+        exit;
+    }
+}
+
+// Hook into the 'activated_plugin' action
+add_action( 'activated_plugin', 'wpwand_set_activation_redirect' );
+
+// Set activation redirect flag
+function wpwand_set_activation_redirect( $plugin ) {
+    if ( $plugin === plugin_basename( __FILE__ ) ) {
+        // Set the option to redirect after activation
+        update_option( 'wpwand_activation_redirect', true );
+    }
+}
