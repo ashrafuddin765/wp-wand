@@ -4,7 +4,7 @@ Contributors: wpgrids, ashrafuddin765
 Tags: ChatGPT, GPT4, Elementor AI, Gutenberg AI, AI Writer, AI Content, GPT3, Content Generator, Content Writer, AI Post Generator, AI Blog Post Writer
 Requires at least: 5.0
 Tested up to: 6.2
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -258,6 +258,9 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 5. Advanced Settings to Improve Content Quality
 
 == Changelog ==
+
+= 1.0.5 =
+* Added: Shodown format.
 
 = 1.0.4 =
 * Fix Elementor issue.
