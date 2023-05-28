@@ -89,7 +89,48 @@
             });
         });
 
-        console.log(wpwand_glb.welecome_url);
+
+
+
+        wpwand_ajax();
+
+
+    });
+
+    $(window).on('elementor:init', function () {
+
+        var wpwandRunning = false; // Variable to track if wpwand_ajax is running
+        var wpwandTimeout = null; // Variable to store the timeout reference
+
+        elementor.hooks.addAction('panel/open_editor/widget', function (panel, model, view, event) {
+            // removePreviousHandlers(); // Remove previous event handlers
+
+            $('.wpwand-trigger:not(.wpwand-close-button)').remove();
+            runWpwandAjax();
+
+            panel.on('childview:render:collection', function (event) {
+                $('.wpwand-trigger:not(.wpwand-close-button)').remove();
+                runWpwandAjax();
+            });
+
+            panel.on('set:page', function (event) {
+                $('.wpwand-trigger:not(.wpwand-close-button)').remove();
+                runWpwandAjax();
+            });
+        });
+
+        function runWpwandAjax() {
+            if (wpwandTimeout) {
+                clearTimeout(wpwandTimeout); // Clear any previous timeout
+            }
+
+            wpwandTimeout = setTimeout(function () {
+                // This code will run only after the specified delay (e.g., 500 milliseconds)
+                wpwand_ajax();
+                wpwandTimeout = null; // Reset the timeout reference
+            }, 500); // Adjust the delay as needed
+        }
+
 
 
     });
@@ -134,5 +175,191 @@
                 $('#wpwand-gpt-3-5').siblings().hide()
                 break;
         }
+    }
+
+
+
+    function wpwand_ajax() {
+        // Use const and let instead of var
+        const $wpwandPromptsTabs = $('.wpwand-prompts-tabs');
+        const $promptItems = $('.prompt-item');
+
+        $promptItems.hide();
+
+        $wpwandPromptsTabs.on('click', '.wpwand-tab-item', function (e) {
+            e.preventDefault();
+
+            const $this = $(this);
+            const promptID = $this.data('prompt-id');
+
+            $('#' + promptID).show();
+            $promptItems.not('#' + promptID).hide();
+        });
+
+        $('.wpwand-tiemplate-item').on('click', function (e) {
+            e.preventDefault();
+
+            console.log('ok');
+            $(this).next('.wpwand-prompt-form-wrap').addClass('active');
+        });
+
+        $('.wpwand-back-button').on('click', function (e) {
+            e.preventDefault();
+
+            $('.wpwand-prompt-form-wrap').removeClass('active');
+        });
+
+        $('.wpwand-prompt-form-wrap').on('submit', function (e) {
+            e.preventDefault();
+            // console.log('ok');
+
+
+            const $this = $(this);
+            const prompt = $this.find('#wpwand-prompt').val();
+            const topic = $this.find('#wpwand-topic').val();
+            const keyword = $this.find('#wpwand-keyword').val();
+            const result_number = $this.find('#wpwand-result-number').val();
+            const tone = $this.find('#wpwand-tone').val();
+            const word_limit = $this.find('#wpwand-word-limit').val();
+            const product_name = $this.find('#wpwand-product-name').val();
+            const content = $this.find('#wpwand-content').val();
+            const description = $this.find('#wpwand-description').val();
+            const content_textarea = $this.find('#wpwand-content-textarea').val();
+            const product_1 = $this.find('#wpwand-product-1').val();
+            const product_2 = $this.find('#wpwand-product-2').val();
+            const description_1 = $this.find('#wpwand-description-1').val();
+            const description_2 = $this.find('#wpwand-description-2').val();
+            const language = $this.find('#wpwand-Language').val();
+            const subject = $this.find('#wpwand-subject').val();
+            const comment = $this.find('#wpwand-comment').val();
+            const question = $this.find('#wpwand-question').val();
+            const is_elementor = $this.closest('.wpwand-floating').hasClass('in-elementor');
+            const is_gutenberg = $this.closest('body').hasClass('block-editor-page');
+            const elementor_control_id = $this.closest('.wpwand-floating').data('elementor-id');
+            const elementor_control_type = $this.closest('.wpwand-floating').data('type');
+
+            // console.log(is_elementor);
+            $this.find('.wpwand-result-box').show();
+            $this.find('.wpwand-content-wrap').html(
+                '<div class="wpwand-content skeleton"><div class="skeleton-left"><div class="line"></div><div class="line w50"></div><div class="line w75"></div></div></div>'
+            );
+
+            // Use $.post instead of $.ajax for simpler codew
+            $.post({
+                url: wpwand_glb.ajax_url,
+                data: {
+                    action: 'wpwand_request',
+                    prompt,
+                    topic,
+                    keyword,
+                    result_number,
+                    tone,
+                    word_limit,
+                    description,
+                    product_name,
+                    content_textarea,
+                    product_1,
+                    product_2,
+                    description_1,
+                    description_2,
+                    language,
+                    subject,
+                    comment,
+                    question,
+                    is_elementor,
+                    is_gutenberg
+                },
+                success: function (response) {
+
+                    $this.find('.wpwand-content-wrap').html(response);
+
+                    var markdownContent = $this.find('.wpwand-ai-response');
+                    var converter = new showdown.Converter();
+                    var htmlContent = converter.makeHtml(markdownContent.text());
+                    markdownContent.html(htmlContent)
+                    // Use event delegation instead of attaching the click handler multiple times
+                    $this.on('click', '.wpwand-copy-button', function (e) {
+                        e.preventDefault();
+
+                        const text = $(this).siblings('.wpwand-ai-response').html();
+                        const $copyButton = $(this);
+
+                        navigator.clipboard.writeText(text)
+                            .then(function () {
+                                $copyButton.text('copied');
+                            })
+                            .catch(function () {
+                                alert('Unable to copy text to clipboard!');
+                            });
+                    });
+
+                    if (is_elementor) {
+                        $this.on('click', '.wpwand-insert-to-widget', function () {
+                            var textToAdd = $(this).siblings('.wpwand-ai-response').html(); // Replace with the text you want to add
+
+                            if ('wysiwyg' == elementor_control_type) {
+                                var editorId = elementor_control_id; // Replace with the ID of your TinyMCE editor
+
+                                var editor = tinymce.get(elementor_control_id);
+                                console.log(editor)
+                                if (editor) {
+                                    editor.setContent(textToAdd);
+                                    editor.fire('change');
+
+                                }
+                            } else {
+                                $('#' + elementor_control_id).val(textToAdd).trigger('input')
+                            }
+                            $(this).text('Inserted')
+                        })
+                    }
+
+                    if (is_gutenberg) {
+                        $this.on('click', '.wpwand-insert-to-gutenberg', function () {
+                            var textToAdd = $(this).siblings('.wpwand-ai-response').html(); // Replace with the text you want to add
+
+                            let t = wp.blocks.createBlock("core/paragraph", {
+                                content: textToAdd
+                            });
+                            wp.data.dispatch("core/block-editor").insertBlock(t)
+
+                            $(this).text('Inserted')
+                        })
+                    }
+
+                },
+                error: function (xhr) {
+                    // Handle AJAX errors
+                    $this.find('.wpwand-content-wrap').html('Error: ' + xhr.statusText);
+                }
+            });
+        });
+
+
+
+
+        // Use arrow function instead of function declaration for simpler code
+        $('body').on('click', '.wpwand-trigger', (event) => {
+            //  event.stopPropagation();
+            $('.wpwand-trigger').toggleClass('active');
+            $('.wpwand-floating').toggleClass('active');
+
+
+        });
+
+
+        $('#wpwand-search-input').on('input', function () {
+            var searchTerm = $(this).val().toLowerCase();
+            $('.wpwand-tiemplate-item').each(function () {
+                var listItemText = $(this).find('h4').text().toLowerCase();
+                if (listItemText.indexOf(searchTerm) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+
+
     }
 }(jQuery))

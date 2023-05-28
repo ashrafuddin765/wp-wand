@@ -46,7 +46,7 @@
     z-index: 999;
 }
 
-.admin-bar .wpwand-floating {
+.admin-bar:not(.block-editor-page) .wpwand-floating {
     padding-top: 30px;
 }
 
@@ -80,7 +80,7 @@ button.wpwand-trigger.wpwand-open.active {
     color: #fff;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 13px;
     line-height: 24px;
     display: flex;
@@ -89,6 +89,12 @@ button.wpwand-trigger.wpwand-open.active {
 
 .wpwand-floating-header h4 svg {
     margin-right: 7px;
+}
+
+.wpwand-result-box h4 {
+    margin: 20px 0;
+    font-weight: 600 !important;
+    color: #080E13;
 }
 
 .wpwand-prompts-tabs {
@@ -165,7 +171,7 @@ button {
     margin: 0 0 5px;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 14px;
     line-height: 20px;
     color: #080E13;
@@ -210,10 +216,11 @@ button {
     display: block;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 14px;
     line-height: 20px;
     margin-bottom: 8px;
+    color: #080E13;
 }
 
 .wpwand-form-field input,
@@ -223,7 +230,10 @@ button {
     border: 1px solid #EAEDF0;
     padding: 0 16px;
     border-radius: 8px;
-max-width: 100%;}
+    max-width: 100%;
+    font-size: 14px;
+    color: #454F5C;
+}
 
 .wpwand-back-button {
     color: #7C838A;
@@ -265,6 +275,7 @@ h4 {}
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+    color: #454F5C;
 }
 
 .wpwand-template-details {
@@ -293,7 +304,7 @@ a.wpwand-submit-pro {
     justify-content: center;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 16px;
     color: #FFFFFF;
     border-radius: 8px;
@@ -316,7 +327,7 @@ a.wpwand-submit-pro svg {
 
 
 .wpwand-form-group.wpwand-col-2 .wpwand-form-field {
-    flex: 0 0 50%;
+    /* flex: 0 0 50%; */
     padding: 0 10px;
     box-sizing: border-box;
 }
@@ -342,7 +353,7 @@ h4 {}
 .wpwand-prompt-form-wrap>h4 {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 14px;
     line-height: 20px;
     margin-bottom: 15px;
@@ -369,7 +380,7 @@ h4 {}
     margin-top: 0;
 }
 
-.admin-bar button.wpwand-trigger.wpwand-close-button.active {
+.admin-bar:Not(.block-editor-page) button.wpwand-trigger.wpwand-close-button.active {
     top: 30px;
 }
 
@@ -377,7 +388,9 @@ h4 {}
     margin-bottom: 0;
 }
 
-.wpwand-content button {
+.wpwand-content button,
+.wpwand-insert-to-widget,
+.wpwand-insert-to-gutenberg {
     display: inline-flex !important;
     float: right;
     background: #3767FB;
@@ -387,15 +400,16 @@ h4 {}
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
+    cursor: pointer;
     line-height: 20px;
     /* identical to box height, or 167% */
-
     display: flex;
     align-items: center;
     padding: 4px 8px;
     align-items: center;
     justify-content: center;
     border-radius: 6px;
+    margin-left: 4px;
 }
 
 .wpwand-content button sbg {
@@ -498,7 +512,7 @@ form.wpwand-prompt-form textarea {
 .wpwand-settings .tab-panel label {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 14px;
     line-height: 20px;
     color: #18181B;
@@ -671,7 +685,7 @@ a.ui-button:active,
 
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 24px;
     line-height: 32px;
     /* identical to box height, or 133% */
@@ -739,7 +753,7 @@ a.ui-button:active,
 .wpwand-pro-prices {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 40px;
     line-height: 48px;
     /* identical to box height, or 120% */
@@ -789,7 +803,7 @@ a.ui-button:active,
 
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     text-decoration: none;
     font-size: 16px;
     line-height: 24px;
@@ -849,7 +863,7 @@ a.ui-button:active,
 .wpwand-model-card-wrapper h3 {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 18px;
     line-height: 28px;
     /* identical to box height, or 156% */
@@ -866,7 +880,7 @@ a.ui-button:active,
 
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 14px;
     line-height: 20px;
     /* identical to box height, or 143% */
@@ -930,7 +944,7 @@ a.wpwand-submit-pro-btn.wpwand-get-pro-button {
 
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 16px;
     line-height: 24px;
     /* identical to box height, or 150% */
@@ -1178,7 +1192,7 @@ span.dashicon.dashicons.dashicons-wpwand-pro {
 .wpwand-welcome-screen h3 {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 40px;
     line-height: 48px;
     color: #080E13;
@@ -1213,7 +1227,7 @@ span.dashicon.dashicons.dashicons-wpwand-pro {
     margin: 0;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 21px;
     line-height: 32px;
 }
@@ -1260,4 +1274,43 @@ form.wpwand-api-missing-form {
 
 .wpwand-welcome-screen-footer {
     padding-top: 30px;
+}
+
+span.wdelmtr-prompt-trigger {
+    width: 24px;
+    margin-left: 14px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+span.wdelmtr-prompt-trigger:hover {
+    transform: scale(1.1);
+}
+
+span.wpwand-insert-to-widget,
+span.wpwand-insert-to-gutenberg {
+    background: #0c0d0e;
+}
+
+.elementor-editor-active .wpwand-prompt-form-wrap,
+.block-editor-page .wpwand-prompt-form-wrap {
+    top: 40px;
+}
+
+.wpwand-template-filter input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #d7dce2;
+    padding: 0 16px;
+    border-radius: 8px;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.elementor-editor-active .wpwand-prompt-from-wrap {
+    height: calc(100vh - 129px);
+}
+
+.wpwand-ai-response h1 {
+    line-height: 1.4;
 }

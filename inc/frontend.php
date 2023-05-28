@@ -109,6 +109,9 @@ function wpwand_frontend_callback() {
 
 
             <div class="wpwand-prompt-item" id="templates">
+                <div class="wpwand-template-filter">
+                    <input type="text" id="wpwand-search-input" placeholder="Search">
+                </div>
                 <div class="wpwand-total-templates-count"><span>Total
                         <?php echo esc_html( count( wpwand_templates() ) ) ?> templates</span></div>
                 <div class="wpwand-template-list">
@@ -118,12 +121,12 @@ function wpwand_frontend_callback() {
             ?>
                     <div class="wpwand-tiemplate-item">
                         <h4>
-                            <?php echo esc_html($template['title']) ?>
+                            <?php echo esc_html( $template['title'] ) ?>
                             <?php if ( true == $template['is_pro'] ): ?>
                             <span class="wpwand-pro-tag">PRO</span>
                             <?php endif;?>
                         </h4>
-                        <p><?php echo esc_html($template['description']) ?></p>
+                        <p><?php echo esc_html( $template['description'] ) ?></p>
 
                         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9.5 0.75L14.75 6M14.75 6L9.5 11.25M14.75 6L1.25 6" stroke="#7C838A"
@@ -140,12 +143,12 @@ function wpwand_frontend_callback() {
                             all templates</span>
 
                         <div class="wpwand-template-details">
-                            <h4><?php echo esc_html($template['title']) ?></h4>
-                            <p><?php echo esc_html($template['description']) ?></p>
+                            <h4><?php echo esc_html( $template['title'] ) ?></h4>
+                            <p><?php echo esc_html( $template['description'] ) ?></p>
                         </div>
                         <form action="" class="wpwand-prompt-form">
                             <input type="hidden" id="wpwand-prompt" name="wpwand-prompt"
-                                value="<?PHP echo esc_html($template['prompt']) ?>">
+                                value="<?PHP echo esc_html( $template['prompt'] ) ?>">
 
                             <?php if ( in_array( 'Topic', $fields ) ): ?>
                             <div class="wpwand-form-group">
@@ -167,7 +170,7 @@ function wpwand_frontend_callback() {
                                 </div>
                             </div>
                             <?php endif;?>
-                    
+
                             <!-- Product Name -->
                             <?php if ( in_array( 'Comment', $fields ) ): ?>
                             <div class="wpwand-form-group">
@@ -178,7 +181,7 @@ function wpwand_frontend_callback() {
                                 </div>
                             </div>
                             <?php endif;?>
-                    
+
                             <!-- Question -->
                             <?php if ( in_array( 'Question', $fields ) ): ?>
                             <div class="wpwand-form-group">
@@ -189,7 +192,7 @@ function wpwand_frontend_callback() {
                                 </div>
                             </div>
                             <?php endif;?>
-                    
+
                             <!-- Subject -->
                             <?php if ( in_array( 'Subject', $fields ) ): ?>
                             <div class="wpwand-form-group">
@@ -200,7 +203,7 @@ function wpwand_frontend_callback() {
                                 </div>
                             </div>
                             <?php endif;?>
-                    
+
                             <!-- Product Name -->
                             <?php if ( in_array( 'Comment', $fields ) ): ?>
                             <div class="wpwand-form-group">
@@ -299,13 +302,13 @@ function wpwand_frontend_callback() {
                             <?php endif;?>
                             <div class="wpwand-form-group wpwand-col-2">
 
-                                <?php //if ( true == $template['fields']['result_number'] ): ?>
+                                <?php if (  'Full Blog Post' != $template['title'] ): ?>
                                 <div class="wpwand-form-field">
                                     <label for="wpwand-result-number">Number of Results</label>
                                     <input type="number" id="wpwand-result-number" max="10" name="wpwand-result-number"
                                         value="1">
                                 </div>
-                                <?php //endif;?>
+                                <?php endif;?>
 
                                 <?php if ( in_array( 'Tone', $fields ) ): ?>
                                 <div class="wpwand-form-field">
@@ -339,13 +342,13 @@ function wpwand_frontend_callback() {
                                     <label for="wpwand-Language">Language</label>
                                     <select name="wpwand-Language" id="wpwand-Language">
                                         <?php
-                                                 if(is_array(wpwand_language_array())){
-                                                    $default_language = wpwand_get_option('wpwand_language', 'en');
-                                                    foreach(wpwand_language_array() as $key => $value){
-                                                        printf( '<option value="%s" %s >%s</option>', $key, selected( $default_language, $key ), $key );
-                                                    }
-                                                }
-                                        ?>
+if ( is_array( wpwand_language_array() ) ) {
+        $default_language = wpwand_get_option( 'wpwand_language', 'en' );
+        foreach ( wpwand_language_array() as $key => $value ) {
+            printf( '<option value="%s" %s >%s</option>', $key, selected( $default_language, $key ), $key );
+        }
+    }
+    ?>
                                     </select>
                                 </div>
                             </div>
@@ -353,8 +356,9 @@ function wpwand_frontend_callback() {
 
                             <div class="wpwand-form-submit">
                                 <?php if ( $template['is_pro'] ): ?>
-                                <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-submit-pro"><svg width="14" height="16" viewBox="0 0 14 16"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <a href="https://wpwand.com/pro-plugin" target="_blank" class="wpwand-submit-pro"><svg
+                                        width="14" height="16" viewBox="0 0 14 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M7 10.25V11.75M2.5 14.75H11.5C12.3284 14.75 13 14.0784 13 13.25V8.75C13 7.92157 12.3284 7.25 11.5 7.25H2.5C1.67157 7.25 1 7.92157 1 8.75V13.25C1 14.0784 1.67157 14.75 2.5 14.75ZM10 7.25V4.25C10 2.59315 8.65685 1.25 7 1.25C5.34315 1.25 4 2.59315 4 4.25V7.25H10Z"
                                             stroke="white" stroke-width="1.5" stroke-linecap="round" />
@@ -366,7 +370,7 @@ function wpwand_frontend_callback() {
                             </div>
                         </form>
 
-                        <div class="wpwand-result-box" style="display:none">
+                        <div class="wpwand-result-box" style="display: none;">
                             <h4>AI Generated Content</h4>
                             <div class="wpwand-content-wrap"></div>
 
@@ -383,127 +387,10 @@ function wpwand_frontend_callback() {
     </div>
 </div>
 
-<script>
-    jQuery(document).ready(function ($) {
-        // Use const and let instead of var
-        const $wpwandPromptsTabs = $('.wpwand-prompts-tabs');
-        const $promptItems = $('.prompt-item');
 
-        $promptItems.hide();
-
-        $wpwandPromptsTabs.on('click', '.wpwand-tab-item', function (e) {
-            e.preventDefault();
-
-            const $this = $(this);
-            const promptID = $this.data('prompt-id');
-
-            $('#' + promptID).show();
-            $promptItems.not('#' + promptID).hide();
-        });
-
-        $('.wpwand-tiemplate-item').on('click', function (e) {
-            e.preventDefault();
-
-            $(this).next('.wpwand-prompt-form-wrap').addClass('active');
-        });
-
-        $('.wpwand-back-button').on('click', function (e) {
-            e.preventDefault();
-
-            $('.wpwand-prompt-form-wrap').removeClass('active');
-        });
-
-        $('.wpwand-prompt-form-wrap').on('submit', function (e) {
-            e.preventDefault();
-
-            const $this = $(this);
-            const prompt = $this.find('#wpwand-prompt').val();
-            const topic = $this.find('#wpwand-topic').val();
-            const keyword = $this.find('#wpwand-keyword').val();
-            const result_number = $this.find('#wpwand-result-number').val();
-            const tone = $this.find('#wpwand-tone').val();
-            const word_limit = $this.find('#wpwand-word-limit').val();
-            const product_name = $this.find('#wpwand-product-name').val();
-            const content = $this.find('#wpwand-content').val();
-            const description = $this.find('#wpwand-description').val();
-            const content_textarea = $this.find('#wpwand-content-textarea').val();
-            const product_1 = $this.find('#wpwand-product-1').val();
-            const product_2 = $this.find('#wpwand-product-2').val();
-            const description_1 = $this.find('#wpwand-description-1').val();
-            const description_2 = $this.find('#wpwand-description-2').val();
-            const language = $this.find('#wpwand-Language').val();
-            const subject = $this.find('#wpwand-subject').val();
-            const comment = $this.find('#wpwand-comment').val();
-            const question = $this.find('#wpwand-question').val();
-
-            $this.find('.wpwand-result-box').show();
-            $this.find('.wpwand-content-wrap').html(
-                '<div class="wpwand-content skeleton"><div class="skeleton-left"><div class="line"></div><div class="line w50"></div><div class="line w75"></div></div></div>'
-            );
-
-            // Use $.post instead of $.ajax for simpler codew
-            $.post({
-                url: '<?php echo  esc_url( admin_url( 'admin-ajax.php' )); ?>',
-                data: {
-                    action: 'wpwand_request',
-                    prompt,
-                    topic,
-                    keyword,
-                    result_number,
-                    tone,
-                    word_limit,
-                    description,
-                    product_name,
-                    content_textarea,
-                    product_1,
-                    product_2,
-                    description_1,
-                    description_2,
-                    language,
-                    subject,
-                    comment,
-                    question,
-                },
-                success: function (response) {
-                    console.log(response);
-                    $this.find('.wpwand-content-wrap').html(response);
-
-                    // Use event delegation instead of attaching the click handler multiple times
-                    $this.on('click', '.wpwand-copy-button', function (e) {
-                        e.preventDefault();
-
-                        const text = $(this).data('copy-text');
-                        const $copyButton = $(this);
-
-                        navigator.clipboard.writeText(text)
-                            .then(function () {
-                                $copyButton.text('copied');
-                            })
-                            .catch(function () {
-                                alert('Unable to copy text to clipboard!');
-                            });
-                    });
-                },
-                error: function (xhr) {
-                    // Handle AJAX errors
-                    $this.find('.wpwand-content-wrap').html('Error: ' + xhr.statusText);
-                }
-            });
-        });
-
-
-
-
-        // Use arrow function instead of function declaration for simpler code
-        $('.wpwand-trigger').on('click', () => {
-            $('.wpwand-trigger').toggleClass('active');
-            $('.wpwand-floating').toggleClass('active');
-        });
-    });
-</script>
-<?php printf( ob_get_clean());
+<?php printf( "%s", ob_get_clean() );
 
 }
 
 add_action( 'admin_footer', 'wpwand_frontend_callback' );
-add_action( 'wp_footer', 'wpwand_frontend_callback' );
+// add_action( 'wp_footer', 'wpwand_frontend_callback' );

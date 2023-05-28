@@ -15,6 +15,8 @@ function wpwand_request() {
     }
 
     $selected_model    = get_option( 'wpwand_model', 'gpt-3.5-turbo' );
+    $is_elementor      = 'true' == $_POST['is_elementor'] ? '<span class="wpwand-insert-to-widget" >Insert to Elementor</span>' : '';
+    $is_gutenberg      = 'true' == $_POST['is_gutenberg'] ? '<span class="wpwand-insert-to-gutenberg" >Insert to Editor</span>' : '';
     $busines_details   = '';
     $targated_customer = '';
     $language          = wp_kses_post( $_POST['language'] ?? '' );
@@ -35,7 +37,7 @@ function wpwand_request() {
         'description_2'    => wp_kses_post( $_POST['description_2'] ?? '' ),
         'subject'          => sanitize_text_field( $_POST['subject'] ?? '' ),
         'question'         => sanitize_text_field( $_POST['question'] ?? '' ),
-        'comment'          => sanitize_text_field( $_POST['comment'] ?? '' )
+        'comment'          => sanitize_text_field( $_POST['comment'] ?? '' ),
     );
 
     // Replace fields in prompt with values
@@ -99,21 +101,25 @@ function wpwand_request() {
     $content = json_decode( $complete );
 
     $text = '';
+    if ( isset( $content->choices ) ) {
+        foreach ( $content->choices as $choice ) {
+            $reply = isset( $choice->message ) ? $choice->message->content : $choice->text;
+            $text .= '<div class="wpwand-content">
 
-    // wp_send_json( $content );
-    // Build HTML content from OpenAI API response
-    foreach ( $content->choices as $choice ) {
-        $text .= '<div class="wpwand-content">
-
-            <button class="wpwand-copy-button" data-copy-text=\' ' . esc_attr( $choice->message->content ) . ' \'>
+            <button class="wpwand-copy-button" >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.66659 3.08333V7.75C3.66659 8.39433 4.18892 8.91667 4.83325 8.91667H8.33325M3.66659 3.08333V1.91667C3.66659 1.27233 4.18892 0.75 4.83325 0.75H7.50829C7.663 0.75 7.81138 0.811458 7.92077 0.920854L10.4957 3.49581C10.6051 3.60521 10.6666 3.75358 10.6666 3.90829V7.75C10.6666 8.39433 10.1443 8.91667 9.49992 8.91667H8.33325M3.66659 3.08333H3.33325C2.22868 3.08333 1.33325 3.97876 1.33325 5.08333V10.0833C1.33325 10.7277 1.85559 11.25 2.49992 11.25H6.33325C7.43782 11.25 8.33325 10.3546 8.33325 9.25V8.91667" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             Copy to Clipboard
             </button>
-            ' . wpautop( esc_html( isset( $choice->message ) ) ? $choice->message->content : $choice->text ) . '
-            </div>';
+            ' . $is_elementor. $is_gutenberg . '<div class="wpwand-ai-response">'.wpautop( $reply ) . '
+            </div></div>';
 
+        }
+    } elseif ( isset( $content->error ) ) {
+        $text .= '<div class="wpwand-content wpwand-prompt-error">
+            ' . $content->error->message . '
+            </div>';
     }
     wp_send_json( $text );
 }
@@ -134,17 +140,16 @@ function wpwand_api_set() {
         wp_send_json_error( 'Please enter your api key' );
     }
 
-    if (!preg_match('/^sk-/',  $_POST['api_key'])) {
+    if ( !preg_match( '/^sk-/', $_POST['api_key'] ) ) {
         wp_send_json_error( 'Invalid api key.' );
-    } 
-    
+    }
 
     // Sanitize and validate input fields
     $api_key = sanitize_text_field( $_POST['api_key'] ?? '' );
 
     $set_api_key = update_option( 'wpwand_api_key', $api_key );
 
-    if ( $set_api_key || get_option( 'wpwand_api_key') == $_POST['api_key'] ) {
+    if ( $set_api_key || get_option( 'wpwand_api_key' ) == $_POST['api_key'] ) {
         wp_send_json( 'success' );
     }
 

@@ -1,39 +1,35 @@
-=== Unlimited AI Content Generator | Integrated with Gutenberg & Elementor | WP Wand ===
+=== Generate Quality Content Using OpenAI, GPT-3 and GPT-4 | AI Content Generator | WP Wand ===
 
 Contributors: wpgrids, ashrafuddin765
-Tags: ChatGPT, GPT4, Elementor AI, Gutenberg AI, AI Writer, AI Content, GPT3, Content Generator, Content Writer, AI Post Generator, AI Blog Post Writer
+Tags: chatgpt, gpt, openai, ai, gpt3, gpt4, ai writer, whisper, image generator, ai training, content generator, content writer, ai post generator, ai blog post writer, ai social media post generator
 Requires at least: 5.0
 Tested up to: 6.2
-Stable tag: 1.0.4
+Stable tag: 1.9.2
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-AI content generator & blog writer for WordPress. Generate high quality content without leaving your website. Integrated with Gutenberg & Elementor.
+Ultimate AI Content Writer for WordPress. Generate high quality content for website, blog and marketing using ChatGPT, GPT-4, DaVinci and more - all without leaving your WordPress website.
 
 == Description ==
 
 WP Wand is the ultimate AI content creator and marketing solution for businesses. It uses advanced algorithms and OpenAI’s popular models like GPT-3.5, GPT-4, DaVinci and more to generate high-quality and engaging content effortlessly, without breaking your bank.
 
-WP Wand is fully integrated with Gutenberg Editor, Classic Editor & Elementor Page Builder to improve your writing experience much better.
-
 Say goodbye to the days of struggling to generate content ideas, spending hours on research, and staring at an empty screen. WP Wand's advanced technology will take care of all that for you. From writing blog posts to crafting marketing copy, social media posts, email content, and product descriptions, WP Wand has got you covered.
 
 
-[Official Site](https://wpwand.com/) | [Documentation](https://wpwand.com/docs/knowledge-base/getting-started-547/)
+[Official Site](https://wdelmtr.com/) | [Documentation](https://wdelmtr.com/docs/knowledge-base/getting-started-547/)
 
 
-https://www.youtube.com/watch?v=CJkraHhSsZ8
+https://www.youtube.com/watch?v=jTxEPvFU_-A
 
 
 == CORE FEATURES ==
 
 * No Monthly Subscription Required
 * No Limit on Content Generation
-* AI for Gutenberg - Integrated with Gutenberg Page Builder
-* AI for Elementor - Integrated with Elementor Page Builder
-* AI Assistant
 * 50x Cheaper Than Other AI Services
 * 40+ Highly Trained Prompt Templates
+* AI Assistant (Integrated with Gutenberg and Classic Editor)
 * AI Training
 * Custom AI Character
 * Custom Business Details Input
@@ -102,7 +98,7 @@ Unlike other AI services, WP Wand does not limit the amount of content you can g
 
 With WP Wand, you don't need to switch between different platforms. You can generate content directly from your WordPress website.
 
-**40+ High Quality Prompt Templates**
+**40+ use case templates**
 
 We offer 40+ different high quality templates trained on industry best-practices and proven examples. Generate any type of content with simple 2 clicks.
 
@@ -220,14 +216,6 @@ With WP Wand, you can generate the same amount of content for just $2.50, which 
 
 No, there are no limits on content generation with WP Wand. You can create as much content as you need, whenever you need it.
 
-= Can I use WP Wand as an Elementor AI alternative? =
-
-Yes, you can use WP Wand as an Elementor AI alternative. WP Wand gives you more options to choose and allows you to use our high quality templates that saves your time & effort.
-
-= Can I use WP Wand inside Gutenberg? =
-
-Yes, you can. WP Wand is seamlessly integrated with Gutenberg editor. You can generate content inside Gutenberg or insert content inside Gutenberg using a single click. 
-
 = Can WP Wand be used with any WordPress theme or plugin? =
 
 Yes, WP Wand is compatible with all WordPress themes and plugins, so you can use it with your existing website setup.
@@ -258,15 +246,6 @@ No, you don't have to purchase any monthly or yearly subscription to use WP Wand
 5. Advanced Settings to Improve Content Quality
 
 == Changelog ==
-
-= 1.0.4 =
-* Fix Elementor issue.
-* Fix Copy text issue.
-
-= 1.0.3 =
-* Added Template Search.
-* Added Elementor Integration.
-* Added Gutenberg Integration.
 
 = 1.0.2 =
 * Added Welcome Screen.

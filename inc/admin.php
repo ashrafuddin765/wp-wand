@@ -157,7 +157,7 @@ function wpwand_settings_page() {
                             <td>
                                 <div class="wpwand-slider-input-wrap">
                                     <input type="number" id="wpwand_max_tokens" name="wpwand_max_tokens" min="0"
-                                        max="3800" step="1" class="wpwand_slider_input small-text"
+                                        max="3700" step="1" class="wpwand_slider_input small-text"
                                         value="<?php echo esc_attr(wpwand_get_option( 'wpwand_max_tokens', 1000 )); ?>" />
                                 </div>
                             </td>

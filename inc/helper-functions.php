@@ -4,22 +4,44 @@ function wpwand_admin_scripts() {
 
     wp_enqueue_style( 'wpwand-inter-font', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap' );
     wp_enqueue_style( 'jquery-ui', WPWAND_PLUGIN_URL . 'assets/css/jquery-ui.css' );
+
     wp_enqueue_style( 'wpwand-admin', WPWAND_PLUGIN_URL . 'assets/css/admin.css' );
 
     wp_enqueue_script( 'jquery-ui-slider' );
+    wp_enqueue_script( 'jquery-showdown', 'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js', ['jquery'] );
     wp_enqueue_script( 'wpwand-admin', WPWAND_PLUGIN_URL . 'assets/js/admin.js', ['jquery'] );
     wp_localize_script( 'wpwand-admin', 'wpwand_glb', array(
-        'plugin_url'      => WPWAND_PLUGIN_URL,
-        'ajax_url' => admin_url( 'admin-ajax.php' ),
+        'plugin_url'  => WPWAND_PLUGIN_URL,
+        'ajax_url'    => admin_url( 'admin-ajax.php' ),
         'setting_url' => admin_url( 'admin.php?page=wpwand' ),
 
     ) );
 
-
 }
 
 add_action( 'admin_enqueue_scripts', 'wpwand_admin_scripts' );
-add_action( 'wp_enqueue_scripts', 'wpwand_admin_scripts' );
+// add_action( 'wp_enqueue_scripts', 'wpwand_admin_scripts' );
+
+function wpwand_get_data() {
+
+    if(!get_option('wpwand_data')){
+
+        // Build the request
+        $url = "https://updates.finestwp.co/demo-import/wp-wand/import-files.php?fdth";
+    
+        $response = wp_remote_get( $url );
+        $response_body = wp_remote_retrieve_body( $response );
+        $response_body = json_decode( $response_body, true );
+        // Send the request with warnings supressed
+    
+        return update_option( 'wpwand_data',  $response_body );
+    }
+
+    return false;
+
+}
+add_action( 'wpwand_init', 'wpwand_get_data' );
+
 
 function wpwand_pro_card() {
     ?>
@@ -89,7 +111,7 @@ function wpwand_pro_card() {
                         <path d="M1.16663 6.375L4.49996 9.875L12.8333 1.125" stroke="#3BCB38" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    Translate in real-time into over 35 languages                
+                    Translate in real-time into over 35 languages
                 </li>
                 <li>
                     <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -236,15 +258,13 @@ function wpwand_model_details_card() {
 <?php
 }
 
-function wpwand_get_option( $opt, $default ='' ) {
+function wpwand_get_option( $opt, $default = '' ) {
     if ( !empty( get_option( $opt ) ) ) {
         return get_option( $opt );
     } else {
         return $default;
     }
 }
-
-
 
 function wpwand_add_advanced_tab() {
     ?>
@@ -317,8 +337,6 @@ function wpwand_add_advanced_tab_content() {
 
 add_action( 'wpwand_add_tab_content', 'wpwand_add_advanced_tab_content' );
 
-
-
 function wpwand_welcome_screen() {
     ?>
 
@@ -345,7 +363,7 @@ function wpwand_welcome_screen() {
             <h3>Welcome to WP Wand</h3>
             <p>Your ultimate AI content generation assistant.</p>
             <!-- <img src="<?php echo WPWAND_PLUGIN_URL . 'assets/img/video.png' ?>" alt=""> -->
-            <iframe width="560"  src="https://www.youtube-nocookie.com/embed/jTxEPvFU_-A?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe width="560"  src="https://www.youtube.com/embed/CJkraHhSsZ8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <div class="wpwand-welcome-screen-content">
             <h4>What are you getting for free?</h4>
@@ -392,12 +410,12 @@ function wpwand_welcome_screen() {
                     </svg>
                     Free Support
                 </li>
- 
+
             </ul>
         </div>
         <?php // if ( !WPWAND_OPENAI_KEY ): ?>
         <div class="wpwand-welcome-screen-footer">
-         
+
             <h4>Start by connecting your free OpenAI Key</h4>
         <!-- wp wand api missing notice  -->
 
@@ -408,7 +426,7 @@ function wpwand_welcome_screen() {
                     <div class="wpwand-form-group">
                         <div class="wpwand-form-field">
                             <input type="text" id="wpwand-api-key" name="wpwand-api-key"
-                                placeholder="Paste API key here" value="<?php echo esc_html( WPWAND_OPENAI_KEY )?>" required>
+                                placeholder="Paste API key here" value="<?php echo esc_html( WPWAND_OPENAI_KEY ) ?>" required>
 
                                 <div class="wpwand-error"></div>
                             <a href="https://platform.openai.com/account/api-keys">Get your free OpenAI API key</a>

@@ -2,8 +2,8 @@
 /**
  * Plugin Name: WP Wand
  * Plugin URI: https://wpwand.com/
- * Description: WP Wand is the generative AI platform for business that helps your team create content tailored for your brand 10X faster
- * Version: 1.0.2
+ * Description: WP Wand is a AI content generation plugin for WordPress that helps your team create high quality content 10X faster and 50x cheaper. No monthly subscription required.
+ * Version: 1.0.4
  * Author: WP Wand
  * Author URI: https://wpwand.com/
  * Text Domain: wpwand
@@ -20,7 +20,7 @@ if ( !defined( 'WPWAND_OPENAI_KEY' ) ) {
 define( 'WPWAND_AI_CHARACTER', get_option( 'wpwand_ai_character', esc_html( 'Ignore all previous instructions. You are an expert copywriter. Provide high quality content based on my prompts.' ) ) );
 
 function wpwand_init() {
-    if(!is_admin(  )){
+    if(!current_user_can( 'manage_options'  )){
         return false;
     }
     // Vendor Autoload
@@ -35,6 +35,10 @@ function wpwand_init() {
     require_once WPWAND_PLUGIN_DIR . 'inc/frontend.php';
     require_once WPWAND_PLUGIN_DIR . 'inc/api.php';
     require_once WPWAND_PLUGIN_DIR . 'inc/gutenberg.php';
+    require_once WPWAND_PLUGIN_DIR . 'inc/modules/elementor/wp-wand-elementor.php';
+    WDELMTR_Extension::instance();
+    do_action( 'wpwand_init' );
+
 }
 
 add_action( 'init', 'wpwand_init', 10 );
